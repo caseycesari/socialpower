@@ -11,16 +11,11 @@ var express = require('express')
 , socket = require('./socket');
 
 var app = express();
-var twitterConsumerKey = process.env.SP_TWITTER_CONSUMER_KEY;
-var twitterConsumerSecret = process.env.SP_TWITTER_CONSUMER_SECRET;
-var twitterAccessToken = process.env.SP_TWITTER_ACCESS_TOKEN;
-var twitterAccessTokenSecret = process.env.SP_TWITTER_ACCESS_TOKEN_SECRET;
-
 var twit = new nt({
-  consumer_key: twitterConsumerKey,  
-  consumer_secret:  twitterConsumerSecret,
-  access_token_key: twitterAccessToken,
-  access_token_secret: twitterAccessTokenSecret,
+  consumer_key: process.env.SP_TWITTER_CONSUMER_KEY,  
+  consumer_secret: process.env.SP_TWITTER_CONSUMER_SECRET,
+  access_token_key: process.env.SP_TWITTER_ACCESS_TOKEN,
+  access_token_secret: process.env.SP_TWITTER_ACCESS_TOKEN_SECRET
 });
 
 app.configure(function(){
@@ -60,10 +55,7 @@ twit.stream('user', {track:'socialpowerphl'}, function(stream) {
 app.get('/', routes.index);
 app.get('/io', routes.iotest);
 
-
-
 var server = app.listen(3000);
 socket(server);
 
 console.log("Express server listening on port 3000");
-
