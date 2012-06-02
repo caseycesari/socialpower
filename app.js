@@ -6,16 +6,15 @@
 var express = require('express')
   , routes = require('./routes')
   , http = require('http')
-  , socket = require('socket.js')
   , nt = require('ntwitter');
 
 var app = express();
 var twitterConsumerKey = process.env.SP_TWITTER_CONSUMER_KEY;
 var twitterConsumerSecret = process.env.SP_TWITTER_CONSUMER_SECRET;
-var twitterAccessToken = '40872595-e35zDbkyn0jOzCo6Of9wSuJyyZeJvbljxipOvMfMg';
-var twitterAccessTokenSecret = 'h2QiROnPV6Btf0iANopmLEZRqw6mymYOfgOGzXL8c4';
+var twitterAccessToken = process.env.SP_TWITTER_ACCESS_TOKEN;
+var twitterAccessTokenSecret = process.env.SP_TWITTER_ACCESS_TOKEN_SECRET;
 
-var twit = new Twitter({
+var twit = new nt({
   consumer_key: twitterConsumerKey,  
   consumer_secret:  twitterConsumerSecret,
   access_token_key: twitterAccessToken,
@@ -42,7 +41,7 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-twit.stream('user', {track:'clapexcitement'}, function(stream) {
+twit.stream('user', {track:'socialpowerphl'}, function(stream) {
   stream.on('data', function (data) {
     console.log(data);
   });
