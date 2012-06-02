@@ -1,7 +1,6 @@
 var express = require('express')
 , routes = require('./routes')
 , http = require('http')
-, oath = require('oath')
 , nt = require('ntwitter')
 , es = require('es')
 , socket = require('./socket')
