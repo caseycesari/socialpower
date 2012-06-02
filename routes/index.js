@@ -8,5 +8,5 @@ exports.index = function(req, res){
 };
 
 exports.iotest = function(req, res) {
-  res.send('hello');
+  res.render('socket');
 };

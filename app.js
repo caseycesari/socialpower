@@ -4,9 +4,11 @@
  */
 
 var express = require('express')
-  , routes = require('./routes')
-  , http = require('http')
-  , oath = require('oath');
+, routes = require('./routes')
+, http = require('http')
+, oath = require('oath')
+, socket = require('./socket');
+//, socket = require('./socket')(io);
 
 var app = express();
 var twitterConsumerKey = process.env.SP_TWITTER_CONSUMER_KEY;
@@ -35,6 +37,10 @@ app.configure('development', function(){
 app.get('/', routes.index);
 app.get('/io', routes.iotest);
 
-http.createServer(app).listen(3000);
+
+
+var server = app.listen(3000);
+socket(server);
 
 console.log("Express server listening on port 3000");
+
