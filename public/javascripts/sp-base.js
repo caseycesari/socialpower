@@ -40,6 +40,20 @@ $(document).ready(function() {
       "facebook": "",
       "website": "http://www.phila.gov/citycouncil/squilla.html",
       "photoURL": ""
+    },
+    {
+      "id": 11,
+      "lastName": "O'Neill",
+      "middleName": "J.",
+      "firstName": "Brian",
+      "nickname": "",
+      "position": "council",
+      "positionAlias": "Councilman (10th District), Minority Leader",
+      "party": "R",
+      "twitter": "@ONeill4NEPhilly",
+      "facebook": "CouncilmanONeill",
+      "website": "http://www.phila.gov/citycouncil/BrianJONeill.html",
+      "photoURL": ""
     } 
   ];
 
@@ -73,13 +87,15 @@ $(document).ready(function() {
       this.collection = new OfficialList(officials),
       this.render();
       this.$el.find('.filter').append(this.createSelect());
+      this.on('change:filterParty', this.filterByParty, this);
+      this.collection.on('reset', this.render, this);
     },
 
     render: function () {
-        var that = this;
-        _.each(this.collection.models, function (item) {
-            that.renderProfile(item);
-        }, this);
+      var that = this;
+      _.each(this.collection.models, function (item) {
+          that.renderProfile(item);
+      }, this);
     },
  
     renderProfile: function (item) {
@@ -91,7 +107,7 @@ $(document).ready(function() {
 
     getParties: function () {
       return _.uniq(this.collection.pluck('party'), false, function (party) {
-        return party.toLowerCase();
+        return party;
       });
     },
      
@@ -103,14 +119,40 @@ $(document).ready(function() {
    
       _.each(this.getParties(), function (item) {
         var option = $("<option/>", {
-          value: item.toLowerCase(),
-          text: item.toLowerCase()
+          value: item,
+          text: item
         }).appendTo(select);
       });
 
       return select;
+    },
+    
+    events: {
+      'change .filter select': 'setFilter'
+    },
+    
+    setFilter: function (e) {
+      alert('got here');
+      this.filterType = e.currentTarget.value;
+      this.trigger("change:filterParty");
+    },
+    
+    filterByParty: function () {
+      if (this.filterParty === 'all') {
+        console.log('in first if');
+        this.collection.reset(officials);
+      } else {
+        this.collection.reset(officials, { silent: true });
+ 
+        var filterParty = this.filterParty,
+          filtered = _.filter(this.collection.models, function (item) {
+          return item.get('party') === filterParty;
+        });
+ 
+        console.log(this);
+        this.collection.reset(filtered);
+      }
     }
-
   });
 
   var list = new ListView();
