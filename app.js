@@ -4,21 +4,18 @@
  */
 
 var express = require('express')
-  , routes = require('./routes')
-  , http = require('http')
-  , nt = require('ntwitter');
+, routes = require('./routes')
+, http = require('http')
+, oath = require('oath')
+, nt = require('ntwitter')
+, socket = require('./socket');
 
 var app = express();
-var twitterConsumerKey = process.env.SP_TWITTER_CONSUMER_KEY;
-var twitterConsumerSecret = process.env.SP_TWITTER_CONSUMER_SECRET;
-var twitterAccessToken = process.env.SP_TWITTER_ACCESS_TOKEN;
-var twitterAccessTokenSecret = process.env.SP_TWITTER_ACCESS_TOKEN_SECRET;
-
 var twit = new nt({
-  consumer_key: twitterConsumerKey,  
-  consumer_secret:  twitterConsumerSecret,
-  access_token_key: twitterAccessToken,
-  access_token_secret: twitterAccessTokenSecret,
+  consumer_key: process.env.SP_TWITTER_CONSUMER_KEY,  
+  consumer_secret: process.env.SP_TWITTER_CONSUMER_SECRET,
+  access_token_key: process.env.SP_TWITTER_ACCESS_TOKEN,
+  access_token_secret: process.env.SP_TWITTER_ACCESS_TOKEN_SECRET
 });
 
 app.configure(function(){
@@ -53,14 +50,12 @@ twit.stream('user', {track:'socialpowerphl'}, function(stream) {
   stream.on('destroy', function (response) {
     // Handle a 'silent' disconnection from Twitter, no end/error event fired
   });
-  
-  // Disconnect stream after five seconds
-  setTimeout(stream.destroy, 5000);
 });
 
 app.get('/', routes.index);
 app.get('/io', routes.iotest);
 
-http.createServer(app).listen(3000);
+var server = app.listen(3000);
+socket(server);
 
 console.log("Express server listening on port 3000");
