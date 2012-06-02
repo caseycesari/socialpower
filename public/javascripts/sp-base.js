@@ -60,7 +60,8 @@ $(document).ready(function() {
   var Official,
       OfficialList,
       ListView,
-      ProfileView;
+      ProfileView,
+      OfficialRouter;
 
   Official = Backbone.Model.extend({
   });
@@ -142,6 +143,7 @@ $(document).ready(function() {
     filterByParty: function () {
       if (this.filterParty === 'All') {
         this.collection.reset(officials);
+        officialRouter.navigate('filter/all');
       } else {
         this.collection.reset(officials, { silent: true });
  
@@ -151,9 +153,24 @@ $(document).ready(function() {
         });
  
         this.collection.reset(filtered);
+        officialRouter.navigate('filter/' + filterParty);
       }
     }
   });
 
   var list = new ListView();
+
+  OfficialRouter = Backbone.Router.extend({
+    routes: {
+      'filter/:party': 'urlFilter'
+    },
+ 
+    urlFilter: function (party) {
+      list.filterParty = party;
+      list.trigger('change:filterParty');
+    }
+  });
+  
+  var officialRouter = new OfficialRouter();
+  Backbone.history.start();
 });
