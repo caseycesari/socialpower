@@ -6,3 +6,7 @@
 exports.index = function(req, res){
   res.render('index', { title: 'Express' });
 };
+
+exports.iotest = function(req, res) {
+  res.send('hello');
+};

@@ -33,6 +33,7 @@ app.configure('development', function(){
 });
 
 app.get('/', routes.index);
+app.get('/io', routes.iotest);
 
 http.createServer(app).listen(3000);
 
