@@ -72,6 +72,7 @@ $(document).ready(function() {
     initialize: function () {
       this.collection = new OfficialList(officials),
       this.render();
+      this.$el.find('.filter').append(this.createSelect());
     },
 
     render: function () {
@@ -86,7 +87,30 @@ $(document).ready(function() {
         model: item
       });
       this.$el.append(profileView.render().el);
+    },
+
+    getParties: function () {
+      return _.uniq(this.collection.pluck('party'), false, function (party) {
+        return party.toLowerCase();
+      });
+    },
+     
+    createSelect: function () {
+      var filter = this.$el.find(".filter"),
+        select = $("<select/>", {
+          html: "<option>All</option>"
+        });
+   
+      _.each(this.getParties(), function (item) {
+        var option = $("<option/>", {
+          value: item.toLowerCase(),
+          text: item.toLowerCase()
+        }).appendTo(select);
+      });
+
+      return select;
     }
+
   });
 
   var list = new ListView();
