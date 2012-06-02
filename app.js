@@ -5,9 +5,12 @@
 
 var express = require('express')
   , routes = require('./routes')
-  , http = require('http');
+  , http = require('http')
+  , oath = require('oath');
 
 var app = express();
+var twitterConsumerKey = process.env.SP_TWITTER_CONSUMER_KEY;
+var twitterConsumerSecret = process.env.SP_TWITTER_CONSUMER_SECRET;
 
 app.configure(function(){
   app.set('views', __dirname + '/views');
