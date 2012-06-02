@@ -12,6 +12,7 @@
   "dependencies": {
     "express": "3.0.0alpha1",
     "jade": "*",
-    "stylus": "*"
+    "stylus": "*",
+    "oath": "*"
   }
 }
