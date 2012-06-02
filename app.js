@@ -3,7 +3,9 @@ var express = require('express')
 , http = require('http')
 , oath = require('oath')
 , nt = require('ntwitter')
-, socket = require('./socket');
+, es = require('es')
+, socket = require('./socket')
+, url = require('url');
 
 var app = express();
 var twit = new nt({
@@ -35,7 +37,22 @@ app.configure('development', function(){
 
 twit.stream('user', {track:'socialpowerphl'}, function(stream) {
   stream.on('data', function (data) {
-    console.log(data);
+    // only save tweets, not lists of friends
+    if (data.id) {
+      data._id = data.id;
+      data._type = 'tweet';
+      console.log(data);
+      db.post(data);
+      es({
+        url: process.env.BONSAI_INDEX_URL + '/' + data._type + '/' + data._id,
+        port: 80,
+        method: 'POST',
+        data: JSON.stringify(data)
+      }, function(err, res) {
+        console.log(err);
+        console.log(res);
+      });
+    }
   });
 
   stream.on('end', function (response) {
@@ -48,7 +65,7 @@ twit.stream('user', {track:'socialpowerphl'}, function(stream) {
 });
 
 app.get('/', routes.index);
-app.get('/io', routes.iotest);
+app.get('/io', routes.io);
 
 var server = app.listen(3000);
 socket(server);

@@ -14,6 +14,7 @@
     "jade": "*",
     "stylus": "*",
     "socket.io": "*",
-    "ntwitter": "*"
+    "ntwitter": "*",
+    "es": "*"
   }
 }
