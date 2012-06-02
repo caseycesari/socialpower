@@ -140,7 +140,7 @@ $(document).ready(function() {
     },
     
     filterByParty: function () {
-      if (this.filterParty === 'all') {
+      if (this.filterParty === 'All') {
         this.collection.reset(officials);
       } else {
         this.collection.reset(officials, { silent: true });
