@@ -93,6 +93,9 @@ $(document).ready(function() {
 
     render: function () {
       var that = this;
+
+      this.$el.find('article').remove();
+
       _.each(this.collection.models, function (item) {
           that.renderProfile(item);
       }, this);
@@ -132,14 +135,12 @@ $(document).ready(function() {
     },
     
     setFilter: function (e) {
-      alert('got here');
-      this.filterType = e.currentTarget.value;
+      this.filterParty = e.currentTarget.value;
       this.trigger("change:filterParty");
     },
     
     filterByParty: function () {
       if (this.filterParty === 'all') {
-        console.log('in first if');
         this.collection.reset(officials);
       } else {
         this.collection.reset(officials, { silent: true });
@@ -149,7 +150,6 @@ $(document).ready(function() {
           return item.get('party') === filterParty;
         });
  
-        console.log(this);
         this.collection.reset(filtered);
       }
     }
