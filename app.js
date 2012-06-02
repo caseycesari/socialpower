@@ -55,9 +55,6 @@ twit.stream('user', {track:'socialpowerphl'}, function(stream) {
   stream.on('destroy', function (response) {
     // Handle a 'silent' disconnection from Twitter, no end/error event fired
   });
-  
-  // Disconnect stream after five seconds
-  setTimeout(stream.destroy, 5000);
 });
 
 app.get('/', routes.index);
