@@ -6,7 +6,13 @@ var express = require('express')
 , socket = require('./socket')
 , url = require('url');
 
+var port = process.env.PORT || 3000;
 var app = express();
+var server = app.listen(port);
+console.log('Express server listening on port ' + port);
+
+socket(server);
+
 var twit = new nt({
   consumer_key: process.env.SP_TWITTER_CONSUMER_KEY,  
   consumer_secret: process.env.SP_TWITTER_CONSUMER_SECRET,
@@ -66,7 +72,3 @@ twit.stream('user', {track:'socialpowerphl'}, function(stream) {
 app.get('/', routes.index);
 app.get('/io', routes.io);
 
-var server = app.listen(3000 || process.env.PORT);
-socket(server);
-
-console.log("Express server listening on port 3000");
