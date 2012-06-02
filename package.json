@@ -1,9 +1,13 @@
 {
   "name": "socialpower",
-  "version": "0.6.18",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "start": "node app"
+  },
+  "engines": {
+    "node": "0.6.x",
+    "npm":  "1.0.x"
   },
   "dependencies": {
     "express": "3.0.0alpha1",
