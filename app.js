@@ -66,7 +66,7 @@ twit.stream('user', {track:'socialpowerphl'}, function(stream) {
 app.get('/', routes.index);
 app.get('/io', routes.io);
 
-var server = app.listen(3000);
+var server = app.listen(3000 || process.env.PORT);
 socket(server);
 
 console.log("Express server listening on port 3000");
