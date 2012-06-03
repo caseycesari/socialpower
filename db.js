@@ -32,20 +32,51 @@ exports.loadOfficials = function(cb) {
 }
 
 exports.byOfficial = function(cb) {
+  var data = {};
+
   es({
-    url: process.env.BONSAI_INDEX_URL + '/_search',
+    url: process.env.BONSAI_INDEX_URL + '/official/_search',
     method: 'POST',
     data: {
       query: {
-        
-      }
+        match_all: {}
+      },
+      size: 9999
     }
-  }, cb)
+  }, function(err, res){
+    var officials = JSON.parse(res).hits.hits;
+    var pending = officials.length;
+    officials.forEach(function(official){
+      official = official._source;
+      es({
+        url: process.env.BONSAI_INDEX_URL + '/tweet/_search',
+        method: 'POST',
+        data: {
+          query: {
+            term: {screen_name : official.twitter}
+          },
+          size: 5
+          //sort: {
+          //  created_at : "desc"
+          //}
+        }
+
+      }, function(err, res){
+        if (err) console.log(err);
+
+        official.tweets = JSON.parse(res).hits.hits.map(function(tweet){
+          return tweet._source;
+        });
+        console.log(pending);
+        --pending || cb(null, officials);
+      });
+    });
+  });
 }
 
 exports.get = function(type, id, cb) {
   es({
-    url: process.env.BONSAI_INDEX_URL + '/' + type + '/' + id,
+    url: process.env.BONSAI_INDEX_URL + '/' + type + '/' + id
   }, cb)
 }
 
