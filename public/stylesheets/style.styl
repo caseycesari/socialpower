@@ -66,7 +66,32 @@ header
     border-bottom: $border
     padding: 5px 0
 
+    h2
+      font-weight: bold
+
+      span
+        font-weight: normal
+
     ul
       list-style: none
 
       li
+        font-size: 14px
+        margin-bottom: 3px
+
+        &.sm
+          font-size: 13px
+
+        a
+          text-decoration: none
+
+        b.icon
+          display: inline-block
+          width: 15px
+          height: 15px
+          background: red
+          text-indent: -5000px
+
+        &.facebook
+          b.icon 
+            background: green
