@@ -300,5 +300,14 @@
     "facebook": "pages/Bob-Brady-for-Congress/331282800239640",
     "website": "http://www.brady.house.gov/",
     "photoURL": "http://brady.house.gov/sites/brady.house.gov/files/resize/images/New_Image-200x307.JPG"
-  }
+  },
+  {
+    "id": 23,
+    "lastName": "",
+    "middleName": "",
+    "firstName": "",
+    "nickname": "",
+    "party": "R",
+    "twitter": "SocialPowerPhl"
+  }  
 ]
