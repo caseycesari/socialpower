@@ -127,13 +127,13 @@ $(document).ready(function() {
       }
 
       this.render();
-      officialRouter.navigate('filter/' + filterParty);
+      appRouter.navigate('filter/' + filterParty);
     }
   });
 
   var list = new ListView();
 
-  OfficialRouter = Backbone.Router.extend({
+  AppRouter = Backbone.Router.extend({
     routes: {
       'filter/:party': 'urlFilter'
     },
@@ -144,6 +144,6 @@ $(document).ready(function() {
     }
   });
   
-  var officialRouter = new OfficialRouter();
+  var appRouter = new AppRouter();
   Backbone.history.start();
 });
