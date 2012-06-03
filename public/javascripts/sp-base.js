@@ -20,8 +20,7 @@ $(document).ready(function() {
       ProfileView,
       OfficialRouter;
 
-  Official = Backbone.Model.extend({
-  });
+  Official = Backbone.Model.extend({});
 
   OfficialList = Backbone.Collection.extend({
     model: Official
@@ -43,10 +42,19 @@ $(document).ready(function() {
     el: $('.official-list'),
     initialize: function () {
       this.collection = new OfficialList(officials),
+      this.initState();
       this.render();
       this.$el.find('.filter').append(this.createSelect());
       this.on('change:filterParty', this.filterByParty, this);
       this.collection.on('reset', this.render, this);
+    },
+
+    initState: function () {
+      _.each(this.collection.models, function (item) {
+        if (!item.hasOwnProperty('visible')) {
+          item.visible = true;
+        }
+      });
     },
 
     render: function () {
@@ -55,7 +63,9 @@ $(document).ready(function() {
       this.$el.find('article').remove();
 
       _.each(this.collection.models, function (item) {
-          that.renderProfile(item);
+          if(item.visible) {
+            that.renderProfile(item);
+          }
       }, this);
     },
  
@@ -75,7 +85,7 @@ $(document).ready(function() {
     createSelect: function () {
       var filter = this.$el.find(".filter"),
         select = $("<select/>", {
-          html: "<option>All</option>"
+          html: '<option value="all">All</option>'
         });
    
       _.each(this.getParties(), function (item) {
@@ -98,20 +108,26 @@ $(document).ready(function() {
     },
     
     filterByParty: function () {
-      if (this.filterParty === 'All') {
-        this.collection.reset(officials);
-        officialRouter.navigate('filter/all');
-      } else {
-        this.collection.reset(officials, { silent: true });
- 
-        var filterParty = this.filterParty,
-          filtered = _.filter(this.collection.models, function (item) {
-          return item.get('party') === filterParty;
+      var filterParty;
+
+      if (this.filterParty === 'all') {
+        filterParty = 'all';
+        _.each(this.collection.models, function(item) {
+          item.visible = true;
         });
- 
-        this.collection.reset(filtered);
-        officialRouter.navigate('filter/' + filterParty);
+      } else {
+        filterParty = this.filterParty;
+        _.each(this.collection.models, function(item) {
+          if (item.get('party') === filterParty) {
+            item.visible = true;
+          } else {
+            item.visible = false;
+          }
+        });
       }
+
+      this.render();
+      officialRouter.navigate('filter/' + filterParty);
     }
   });
 
