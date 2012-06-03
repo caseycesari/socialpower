@@ -3,6 +3,7 @@ var express = require('express')
 , http = require('http')
 , oath = require('oath')
 , nt = require('ntwitter')
+, fs = require('fs')
 , socket = require('./socket');
 
 var app = express();

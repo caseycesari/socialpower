@@ -1,6 +1,8 @@
 extends layout
 
 block scripts
+  script
+    var officials = !{officials};
 
 block content
   h1= title
@@ -9,3 +11,4 @@ block content
       div.filter
         label Show me:
   include js-templates.html
+

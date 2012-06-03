@@ -1,10 +1,9 @@
-
-/*
- * GET home page.
- */
-
 exports.index = function(req, res){
-  res.render('index', { title: 'Express' });
+  console.log(__dirname)
+  res.render('index', {
+    title: 'Express',
+    officials: fs.readFileSync(process.cwd() + '/public/json/officials.json')
+  });
 };
 
 exports.iotest = function(req, res) {
