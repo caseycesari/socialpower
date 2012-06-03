@@ -6,24 +6,27 @@
   </h2>
   <ul>
     <li class="position"><%= positionAlias %></li>
-    <li class="online">
-      <dl>
-        <dt>Twitter</dt>
-        <dd>
-          <% if(twitter && twitter !== '') { %>
-            <a href="http://twitter.com/<%= twitter %>"><%= twitter %></a></dd>
-          <% } else { %>
-            None on record
-          <% } %>
-        <dt>Facebook</dt>
-        <dd>
-          <% if(facebook && facebook !== '') { %>
-            <a href="http://facebook.com/<%= facebook %>"><%= facebook %></a>
-          <% } else { %>
-            None on record
-          <% } %>
-        </dd>
-      </dl>
+    <li class="sm twitter">
+      <% if(twitter && twitter !== '') { %>
+        <a href="http://twitter.com/<%= twitter %>">
+          <b class="icon">Twitter:</b>
+          @<%= twitter %>
+        </a>
+      <% } else { %>
+        <b class="icon">Twitter:</b>
+        None on record
+      <% } %>
+    </li>
+    <li class="sm facebook">
+      <% if(facebook && facebook !== '') { %>
+        <a href="http://facebook.com/<%= facebook %>">
+          <b class="icon">Facebook:</b>
+          facebook.com/<%= facebook %>
+        </a>
+      <% } else { %>
+        <b class="icon">Facebook:</b>
+        None on record
+      <% } %>
     </li>
   </ul>
 </script>
