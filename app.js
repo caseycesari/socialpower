@@ -76,6 +76,5 @@ app.get('/io', routes.io);
 
 // load officials into from json file
 db.loadOfficials(function(err, res) {
-  console.log(err);
-  console.log(res);
+  if (err) console.log(err);
 });

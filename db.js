@@ -3,7 +3,7 @@ var officials = require('./officials');
 
 exports.all = function(cb) {
   es({
-    url: process.env.BONSAI_INDEX_URL + '/_search',
+    url: process.env.BONSAI_INDEX_URL + '/_search?pretty=true',
     method: 'POST',
     data: {
       query: {
