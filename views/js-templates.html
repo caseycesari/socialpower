@@ -1,8 +1,8 @@
 <script class="officialTemplate" type="text/template">
-  <h2><%= firstName %> <%= lastName %>, 
+  <h2><%= firstName %> <%= lastName %>
     <% var partyName; %>
     <% (party === 'R') ? partyName = 'Republican' : partyName = 'Democrat' %>
-    <span><%= partyName %></span>
+    <span>- <%= partyName %></span>
   </h2>
   <ul>
     <li class="position"><%= positionAlias %></li>
