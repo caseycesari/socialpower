@@ -60,7 +60,7 @@
     "position": "council",
     "positionAlias": "Councilman (4th District), Majority Leader",
     "party": "D",
-    "twitter": "",
+    "twitter": "@Mr4thDistrict",
     "facebook": "CouncilmanCurtisJonesJr",
     "website": "www.curtisjonesjr.com",
     "photoURL": ""
@@ -156,7 +156,7 @@
     "position": "council",
     "positionAlias": "Councilman (At-Large)",
     "party": "D",
-    "twitter": "",
+    "twitter": "@Goode_AtLarge",
     "facebook": "",
     "website": "http://www.phila.gov/citycouncil/WilsonGoodeJr.html",
     "photoURL": ""
@@ -170,7 +170,7 @@
     "position": "council",
     "positionAlias": "Councilman (At-Large), Majority Deputy Whip",
     "party": "D",
-    "twitter": "",
+    "twitter": "@BillGreenlee15",
     "facebook": "bill.greenlee.5",
     "website": "http://www.phila.gov/citycouncil/WilliamGreenlee.html",
     "photoURL": ""
@@ -286,5 +286,19 @@
     "facebook": "",
     "website": "http://voteboyle.com/kevin/",
     "photoURL": ""
+  },
+  {
+    "id": 22,
+    "lastName": "Brady",
+    "middleName": "A.",
+    "firstName": "Robert",
+    "nickname": "Bob Brady",
+    "position": "us-rep",
+    "positionAlias": "U.S. Representative (District 1)",
+    "party": "D",
+    "twitter": "@RepBrady",
+    "facebook": "pages/Bob-Brady-for-Congress/331282800239640",
+    "website": "http://www.brady.house.gov/",
+    "photoURL": "http://brady.house.gov/sites/brady.house.gov/files/resize/images/New_Image-200x307.JPG"
   }
 ]

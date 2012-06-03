@@ -1,12 +1,19 @@
 var express = require('express')
 , routes = require('./routes')
 , http = require('http')
-, oath = require('oath')
 , nt = require('ntwitter')
 , fs = require('fs')
-, socket = require('./socket');
+, es = require('es')
+, socket = require('./socket')
+, url = require('url');
 
+var port = process.env.PORT || 3000;
 var app = express();
+var server = app.listen(port);
+console.log('Express server listening on port ' + port);
+
+socket(server);
+
 var twit = new nt({
   consumer_key: process.env.SP_TWITTER_CONSUMER_KEY,  
   consumer_secret: process.env.SP_TWITTER_CONSUMER_SECRET,
@@ -36,7 +43,22 @@ app.configure('development', function(){
 
 twit.stream('user', {track:'socialpowerphl'}, function(stream) {
   stream.on('data', function (data) {
-    console.log(data);
+    // only save tweets, not lists of friends
+    if (data.id) {
+      data._id = data.id;
+      data._type = 'tweet';
+      console.log(data);
+      db.post(data);
+      es({
+        url: process.env.BONSAI_INDEX_URL + '/' + data._type + '/' + data._id,
+        port: 80,
+        method: 'POST',
+        data: JSON.stringify(data)
+      }, function(err, res) {
+        console.log(err);
+        console.log(res);
+      });
+    }
   });
 
   stream.on('end', function (response) {
@@ -49,9 +71,4 @@ twit.stream('user', {track:'socialpowerphl'}, function(stream) {
 });
 
 app.get('/', routes.index);
-app.get('/io', routes.iotest);
-
-var server = app.listen(3000);
-socket(server);
-
-console.log("Express server listening on port 3000");
+app.get('/io', routes.io);

@@ -1,3 +1,5 @@
+var db = require('../db');
+
 exports.index = function(req, res){
   console.log(__dirname)
   res.render('index', {
@@ -6,6 +8,10 @@ exports.index = function(req, res){
   });
 };
 
-exports.iotest = function(req, res) {
-  res.render('socket');
+exports.io = function(req, res) {
+  db.all(function(err, dbRes) {
+    console.log(err);
+    console.log(dbRes);
+    res.send(dbRes);
+  });
 };
