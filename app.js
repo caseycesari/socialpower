@@ -5,6 +5,7 @@ var express = require('express')
 , fs = require('fs')
 , es = require('es')
 , socket = require('./socket')
+, db = require('./db')
 , url = require('url');
 
 var port = process.env.PORT || 3000;
@@ -72,3 +73,9 @@ twit.stream('user', {track:'socialpowerphl'}, function(stream) {
 
 app.get('/', routes.index);
 app.get('/io', routes.io);
+
+// load officials into from json file
+db.loadOfficials(function(err, res) {
+  console.log(err);
+  console.log(res);
+});

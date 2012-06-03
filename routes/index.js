@@ -9,7 +9,7 @@ exports.index = function(req, res){
 };
 
 exports.io = function(req, res) {
-  db.all(function(err, dbRes) {
+  db.byOfficial(function(err, dbRes) {
     console.log(err);
     console.log(dbRes);
     res.send(dbRes);
