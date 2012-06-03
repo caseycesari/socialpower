@@ -91,7 +91,7 @@ $(document).ready(function() {
       _.each(this.getParties(), function (item) {
         var option = $("<option/>", {
           value: item,
-          text: item
+          text: ((item === 'R') ? 'Republicans' : 'Democrats')
         }).appendTo(select);
       });
 
