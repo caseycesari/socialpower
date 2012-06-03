@@ -6,6 +6,8 @@ html
   font-family: $font_family
   a
     color: $link_color
+  body
+    background: $pale_gray
 
 // utility classes
 span.button
@@ -27,3 +29,39 @@ span.button
 
   &:hover
     cursor: pointer
+
+header
+  width: 960px
+  margin: 0 auto
+  border-bottom: $border
+  padding: 20px 0 10px 0
+
+  h1 a
+    font-weight: bold
+    text-decoration: none
+    font-size: 18px
+
+    span
+      display: block
+      font-weight: normal
+      font-size: 14px
+      color: $secondary_text
+
+#content
+  width: 960px
+  margin: 0 auto
+  position: relative
+
+  .filter
+    font-size: 12px
+    margin-top: -40px
+    position: absolute
+    right: 0
+    color: $secondary_text
+
+    select
+      margin-left: 5px
+
+  article
+    border-bottom: $border
+    padding: 5px 0
