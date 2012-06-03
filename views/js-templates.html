@@ -1,3 +1,25 @@
 <script class="officialTemplate" type="text/template">
-  <h2><%= firstName %> <%= lastName %></h2>
+  <h2><%= firstName %> <%= lastName %>, <span><%= party %></span></h2>
+  <ul>
+    <li class="position"><%= positionAlias %></li>
+    <li class="online">
+      <dl>
+        <dt>Twitter</dt>
+        <dd>
+          <% if(twitter && twitter !== '') { %>
+            <a href="http://twitter.com/<%= twitter %>"><%= twitter %></a></dd>
+          <% } else { %>
+            None on record
+          <% } %>
+        <dt>Facebook</dt>
+        <dd>
+          <% if(facebook && facebook !== '') { %>
+            <a href="http://facebook.com/<%= facebook %>"><%= facebook %></a>
+          <% } else { %>
+            None on record
+          <% } %>
+        </dd>
+      </dl>
+    </li>
+  </ul>
 </script>
