@@ -14,49 +14,6 @@ sp = {
 };
 
 $(document).ready(function() {
-  var officials = [
-    {
-      "id": 1,
-      "lastName": "Nutter",
-      "firstName": "Michael",
-      "nickname": "",
-      "position": "mayor",
-      "positionAlias": "Mayor",
-      "party": "D",
-      "twitter": "@Michael_Nutter",
-      "facebook": "mayornutter",
-      "website": "",
-      "photoURL": ""
-    },
-    {
-      "id": 2,
-      "lastName": "Squilla",
-      "firstName": "Mark",
-      "nickname": "",
-      "position": "council",
-      "positionAlias": "Councilman (1st District)",
-      "party": "D",
-      "twitter": "@marksquilla",
-      "facebook": "",
-      "website": "http://www.phila.gov/citycouncil/squilla.html",
-      "photoURL": ""
-    },
-    {
-      "id": 11,
-      "lastName": "O'Neill",
-      "middleName": "J.",
-      "firstName": "Brian",
-      "nickname": "",
-      "position": "council",
-      "positionAlias": "Councilman (10th District), Minority Leader",
-      "party": "R",
-      "twitter": "@ONeill4NEPhilly",
-      "facebook": "CouncilmanONeill",
-      "website": "http://www.phila.gov/citycouncil/BrianJONeill.html",
-      "photoURL": ""
-    } 
-  ];
-
   var Official,
       OfficialList,
       ListView,
