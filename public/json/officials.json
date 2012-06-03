@@ -7,7 +7,7 @@
     "position": "mayor",
     "positionAlias": "Mayor",
     "party": "D",
-    "twitter": "@Michael_Nutter",
+    "twitter": "Michael_Nutter",
     "facebook": "mayornutter",
     "website": "",
     "photoURL": ""
@@ -20,7 +20,7 @@
     "position": "council",
     "positionAlias": "Councilman (1st District)",
     "party": "D",
-    "twitter": "@marksquilla",
+    "twitter": "marksquilla",
     "facebook": "",
     "website": "http://www.phila.gov/citycouncil/squilla.html",
     "photoURL": ""
@@ -33,7 +33,7 @@
     "position": "council",
     "positionAlias": "Councilman (2nd District)",
     "party": "D",
-    "twitter": "@Johnson2ServeU",
+    "twitter": "Johnson2ServeU",
     "facebook": "staterepkenyattajohnson",
     "website": "http://www.phila.gov/citycouncil/kenyatta.html",
     "photoURL": ""
@@ -60,7 +60,7 @@
     "position": "council",
     "positionAlias": "Councilman (4th District), Majority Leader",
     "party": "D",
-    "twitter": "@Mr4thDistrict",
+    "twitter": "Mr4thDistrict",
     "facebook": "CouncilmanCurtisJonesJr",
     "website": "www.curtisjonesjr.com",
     "photoURL": ""
@@ -73,7 +73,7 @@
     "position": "council",
     "positionAlias": "Councilman (5th District), Council President",
     "party": "D",
-    "twitter": "@Darrell_Clarke",
+    "twitter": "Darrell_Clarke",
     "facebook": "councilmandarrellclarke",
     "website": "http://www.phila.gov/citycouncil/DarrellClarke.html",
     "photoURL": ""
@@ -128,7 +128,7 @@
     "position": "council",
     "positionAlias": "Councilwoman (9th District)",
     "party": "D",
-    "twitter": "@mbtphillydem",
+    "twitter": "mbtphillydem",
     "facebook": "100000273170970",
     "website": "http://www.phila.gov/citycouncil/MarianBTasco.html",
     "photoURL": ""
@@ -142,7 +142,7 @@
     "position": "council",
     "positionAlias": "Councilman (10th District), Minority Leader",
     "party": "R",
-    "twitter": "@ONeill4NEPhilly",
+    "twitter": "ONeill4NEPhilly",
     "facebook": "CouncilmanONeill",
     "website": "http://www.phila.gov/citycouncil/BrianJONeill.html",
     "photoURL": ""
@@ -156,7 +156,7 @@
     "position": "council",
     "positionAlias": "Councilman (At-Large)",
     "party": "D",
-    "twitter": "@Goode_AtLarge",
+    "twitter": "Goode_AtLarge",
     "facebook": "",
     "website": "http://www.phila.gov/citycouncil/WilsonGoodeJr.html",
     "photoURL": ""
@@ -170,7 +170,7 @@
     "position": "council",
     "positionAlias": "Councilman (At-Large), Majority Deputy Whip",
     "party": "D",
-    "twitter": "@BillGreenlee15",
+    "twitter": "BillGreenlee15",
     "facebook": "bill.greenlee.5",
     "website": "http://www.phila.gov/citycouncil/WilliamGreenlee.html",
     "photoURL": ""
@@ -184,7 +184,7 @@
     "position": "council",
     "positionAlias": "Councilman (At-Large)",
     "party": "R",
-    "twitter": "@RepObrien",
+    "twitter": "RepObrien",
     "facebook": "CouncilmanDenny",
     "website": " http://www.RepObrien.com",
     "photoURL": ""
@@ -198,7 +198,7 @@
     "position": "council",
     "positionAlias": "Councilman (At-Large), Majority Whip",
     "party": "R",
-    "twitter": "@CouncilwomanBRB",
+    "twitter": "CouncilwomanBRB",
     "facebook": "CouncilwomanBRB",
     "website": "http://www.blondellonline.com/",
     "photoURL": ""
@@ -212,7 +212,7 @@
     "position": "council",
     "positionAlias": "Councilman (At-Large), Minority Whip",
     "party": "R",
-    "twitter": "@DavidOhPhilly",
+    "twitter": "DavidOhPhilly",
     "facebook": "DavidOhForPhilly",
     "website": "http://davidoh.com/",
     "photoURL": ""
@@ -240,7 +240,7 @@
     "position": "state-rep",
     "positionAlias": "State Representative (District 154)",
     "party": "D",
-    "twitter": "@RepLarryCurry",
+    "twitter": "RepLarryCurry",
     "facebook": "RepCurry",
     "website": "http://www.pahouse.com/curry",
     "photoURL": ""
@@ -254,7 +254,7 @@
     "position": "state-rep",
     "positionAlias": "State Representative (District 170)",
     "party": "D",
-    "twitter": "@RepBrendanBoyle",
+    "twitter": "RepBrendanBoyle",
     "facebook": "RepBrendanBoyle",
     "website": "http://voteboyle.com/brendan/",
     "photoURL": ""
@@ -268,7 +268,7 @@
     "position": "state-rep",
     "positionAlias": "State Representative (District 172)",
     "party": "D",
-    "twitter": "@RepKevinBoyle",
+    "twitter": "RepKevinBoyle",
     "facebook": "",
     "website": "http://voteboyle.com/kevin/",
     "photoURL": ""
@@ -282,7 +282,7 @@
     "position": "state-rep",
     "positionAlias": "State Representative (District 173)",
     "party": "D",
-    "twitter": "@RepMcGeehan",
+    "twitter": "RepMcGeehan",
     "facebook": "",
     "website": "http://voteboyle.com/kevin/",
     "photoURL": ""
@@ -296,7 +296,7 @@
     "position": "us-rep",
     "positionAlias": "U.S. Representative (District 1)",
     "party": "D",
-    "twitter": "@RepBrady",
+    "twitter": "RepBrady",
     "facebook": "pages/Bob-Brady-for-Congress/331282800239640",
     "website": "http://www.brady.house.gov/",
     "photoURL": "http://brady.house.gov/sites/brady.house.gov/files/resize/images/New_Image-200x307.JPG"
