@@ -10,11 +10,11 @@ $(document).ready(function() {
 
     updateVisible: function(party) {
       if (party === 'all') {
-        this.visible = true;
-      } else if (this.party === party) {
-        this.visible = true;
+        this.set('visible', true);
+      } else if (this.get('party') === party) {
+        this.set('visible', true);
       } else {
-        this.visible = false;
+        this.set('visible', false);
       }
     }
   });
@@ -39,19 +39,19 @@ $(document).ready(function() {
   });
 
   sp.ListView = Backbone.View.extend({
-    el: $('.official-list'),
+    el: '.official-list',
 
     initialize: function () {
       this.render();
       this.collection.on('reset', this.render, this);
+      Officials.on('change:visible', this.updateList, this);
     },
 
     render: function () {
       var that = this;
 
       _.each(this.collection.models, function (official) {
-        console.log(official);
-          if(official.get('visible')) {
+          if(official.get('visible') === true) {
             that.renderProfile(official);
           }
       }, this);
@@ -59,10 +59,19 @@ $(document).ready(function() {
 
     renderProfile: function (official) {
       var profileView = new sp.ProfileView({
-        model: official
+        model: official,
+        id: 'official-' + official.get('id')
       });
 
       this.$el.append(profileView.render().el);
+    },
+
+    updateList: function(model, visible) {
+      if (visible === true) {
+        this.$el.find('#official-' + model.get('id')).show();
+      } else {
+        this.$el.find('#official-' + model.get('id')).hide();
+      }
     }
   });
 
@@ -74,6 +83,10 @@ $(document).ready(function() {
       this.on('change:filterParty', this.updatePartyFilter, this);
 
       var List = new sp.ListView({collection: Officials});
+    },
+
+    events: {
+      'change .filter select': 'setFilter'
     },
 
     getParties: function () {
@@ -101,10 +114,12 @@ $(document).ready(function() {
     setFilter: function (e) {
       this.filterParty = e.currentTarget.value;
       this.trigger("change:filterParty");
+      Router.navigate('list/' + this.filterParty);
     },
 
     updatePartyFilter: function () {
-      _.each(Officials, function(official) {
+      var filterParty = this.filterParty;
+      _.each(Officials.models, function (official) {
         official.updateVisible(filterParty);
       });
     }
@@ -112,12 +127,12 @@ $(document).ready(function() {
 
   sp.AppRouter = Backbone.Router.extend({
     routes: {
-      'list/:party': 'urlFilter'
+      'list/:party': 'filterParty'
     },
  
-    urlFilter: function (party) {
-      list.filterParty = party;
-      list.trigger('change:filterParty');
+    filterParty: function (party) {
+      App.filterParty = party;
+      App.trigger('change:filterParty');
     }
   });
   
