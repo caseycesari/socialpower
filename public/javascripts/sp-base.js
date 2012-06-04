@@ -106,12 +106,6 @@ $(document).ready(function() {
       'change .filter select': 'setFilter'
     },
 
-    getItems: function(type) {
-      return _.uniq(Officials.pluck(type), false, function (type) {
-        return type;
-      });
-    },
-
     createSelect: function(type) {
       var that = this;
 
@@ -120,7 +114,7 @@ $(document).ready(function() {
           html: '<option value="all">All</option>'
         });
    
-      _.each(that.getItems(type), function (item) {
+      _.each(_.uniq(Officials.pluck(type)), function (item) {
         var option = $('<option/>', {
           value: item,
           text: that.getAlias(item)
