@@ -2,34 +2,34 @@ if (typeof sp === 'undefined' || !sp) {
   var sp = {};
 }
 
-sp = {
-  getPols: function() {
-    $.ajax({
-      url: '/json/officials.json',
-      success: function(data){
-        console.log(data);
-      }
-    });
-  }
-};
-
 $(document).ready(function() {
-  var Official,
-      OfficialList,
-      ListView,
-      ProfileView,
-      OfficialRouter;
+  sp.Official = Backbone.Model.extend({
+    defaults: {
+      visible: true
+    },
 
-  Official = Backbone.Model.extend({});
-
-  OfficialList = Backbone.Collection.extend({
-    model: Official
+    updateVisible: function(party) {
+      if (party === 'all') {
+        this.visible = true;
+      } else if (this.party === party) {
+        this.visible = true;
+      } else {
+        this.visible = false;
+      }
+    }
   });
 
-  ProfileView = Backbone.View.extend({
+  sp.OfficialCollection = Backbone.Collection.extend({
+    model: sp.Official
+  });
+
+  sp.ProfileView = Backbone.View.extend({
     tagName: 'article',
+
     className: 'official-profile',
+
     template: $('.officialTemplate').html(),
+    
     render: function () {
       var tmpl = _.template(this.template);
 
@@ -38,50 +38,50 @@ $(document).ready(function() {
     }
   });
 
-  ListView = Backbone.View.extend({
+  sp.ListView = Backbone.View.extend({
     el: $('.official-list'),
-    initialize: function () {
-      this.collection = new OfficialList(officials),
-      this.initState();
-      this.render();
-      this.$el.find('.filter').append(this.createSelect());
-      this.on('change:filterParty', this.filterByParty, this);
-      this.collection.on('reset', this.render, this);
-    },
 
-    initState: function () {
-      _.each(this.collection.models, function (item) {
-        if (!item.hasOwnProperty('visible')) {
-          item.visible = true;
-        }
-      });
+    initialize: function () {
+      this.render();
+      this.collection.on('reset', this.render, this);
     },
 
     render: function () {
       var that = this;
 
-      this.$el.find('article').remove();
-
-      _.each(this.collection.models, function (item) {
-          if(item.visible) {
-            that.renderProfile(item);
+      _.each(this.collection.models, function (official) {
+        console.log(official);
+          if(official.get('visible')) {
+            that.renderProfile(official);
           }
       }, this);
     },
- 
-    renderProfile: function (item) {
-      var profileView = new ProfileView({
-        model: item
+
+    renderProfile: function (official) {
+      var profileView = new sp.ProfileView({
+        model: official
       });
+
       this.$el.append(profileView.render().el);
+    }
+  });
+
+  sp.AppView = Backbone.View.extend({
+    el: '#content',
+
+    initialize: function() {
+      this.$el.find('.filter').append(this.createSelect());
+      this.on('change:filterParty', this.updatePartyFilter, this);
+
+      var List = new sp.ListView({collection: Officials});
     },
 
     getParties: function () {
-      return _.uniq(this.collection.pluck('party'), false, function (party) {
+      return _.uniq(Officials.pluck('party'), false, function (party) {
         return party;
       });
     },
-     
+
     createSelect: function () {
       var filter = this.$el.find(".filter"),
         select = $("<select/>", {
@@ -98,44 +98,21 @@ $(document).ready(function() {
       return select;
     },
     
-    events: {
-      'change .filter select': 'setFilter'
-    },
-    
     setFilter: function (e) {
       this.filterParty = e.currentTarget.value;
       this.trigger("change:filterParty");
     },
-    
-    filterByParty: function () {
-      var filterParty;
 
-      if (this.filterParty === 'all') {
-        filterParty = 'all';
-        _.each(this.collection.models, function(item) {
-          item.visible = true;
-        });
-      } else {
-        filterParty = this.filterParty;
-        _.each(this.collection.models, function(item) {
-          if (item.get('party') === filterParty) {
-            item.visible = true;
-          } else {
-            item.visible = false;
-          }
-        });
-      }
-
-      this.render();
-      appRouter.navigate('filter/' + filterParty);
+    updatePartyFilter: function () {
+      _.each(Officials, function(official) {
+        official.updateVisible(filterParty);
+      });
     }
   });
 
-  var list = new ListView();
-
-  AppRouter = Backbone.Router.extend({
+  sp.AppRouter = Backbone.Router.extend({
     routes: {
-      'filter/:party': 'urlFilter'
+      'list/:party': 'urlFilter'
     },
  
     urlFilter: function (party) {
@@ -144,6 +121,9 @@ $(document).ready(function() {
     }
   });
   
-  var appRouter = new AppRouter();
+  var Officials = new sp.OfficialCollection(officials);
+  var Router = new sp.AppRouter();
+  var App = new sp.AppView();
+
   Backbone.history.start();
 });
