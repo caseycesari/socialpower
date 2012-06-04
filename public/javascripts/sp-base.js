@@ -8,13 +8,27 @@ $(document).ready(function() {
       visible: true
     },
 
-    updateVisible: function(party) {
-      if (party === 'all') {
+    updateVisible: function(party, position) {
+      if (party === 'all' && position === 'all') {
         this.set('visible', true);
-      } else if (this.get('party') === party) {
-        this.set('visible', true);
-      } else {
-        this.set('visible', false);
+      } else if (party !== 'all' && position === 'all') {
+        if (this.get('party') === party) {
+          this.set('visible', true);
+        } else {
+          this.set('visible', false);
+        }
+      } else if (party === 'all' && position !== 'all') {
+        if (this.get('position') === position) {
+          this.set('visible', true);
+        } else {
+          this.set('visible', false);
+        }
+      } else if (party !== 'all' && position !== 'all') {
+        if (this.get('party') === party && this.get('position') === position) {
+          this.set('visible', true);
+        } else {
+          this.set('visible', false);
+        }
       }
     }
   });
@@ -79,8 +93,11 @@ $(document).ready(function() {
     el: '#content',
 
     initialize: function() {
-      this.$el.find('.filter').append(this.createSelect());
-      this.on('change:filterParty', this.updatePartyFilter, this);
+      this.$el.find('.filter.party').append(this.createPartySelect());
+      this.$el.find('.filter.position').append(this.createPositionSelect());
+      this.on('change:filter', this.setVisibleModels, this);
+      this.filterParty = 'all'
+      this.filterPosition = '';
 
       var List = new sp.ListView({collection: Officials});
     },
@@ -95,14 +112,20 @@ $(document).ready(function() {
       });
     },
 
-    createSelect: function () {
-      var filter = this.$el.find(".filter"),
-        select = $("<select/>", {
+    getPositions: function () {
+      return _.uniq(Officials.pluck('position'), false, function (position) {
+        return position;
+      });
+    },
+
+    createPartySelect: function () {
+      var filter = this.$el.find('.filter.party'),
+        select = $('<select/>', {
           html: '<option value="all">All</option>'
         });
    
       _.each(this.getParties(), function (item) {
-        var option = $("<option/>", {
+        var option = $('<option/>', {
           value: item,
           text: ((item === 'R') ? 'Republicans' : 'Democrats')
         }).appendTo(select);
@@ -110,29 +133,67 @@ $(document).ready(function() {
 
       return select;
     },
-    
-    setFilter: function (e) {
-      this.filterParty = e.currentTarget.value;
-      this.trigger("change:filterParty");
-      Router.navigate('list/' + this.filterParty);
+
+    createPositionSelect: function () {
+      var that = this;
+
+      var filter = this.$el.find('.filter.position'),
+        select = $('<select/>', {
+          html: '<option value="all">All</option>'
+        });
+   
+      _.each(this.getPositions(), function (item) {
+        var option = $('<option/>', {
+          value: item,
+          text: that.getAlias(item)
+        }).appendTo(select);
+      });
+
+      return select;
     },
 
-    updatePartyFilter: function () {
+    getAlias: function(position) {
+      var aliasLookup = {
+        R: 'Republican',
+        D: 'Democrat',
+        mayor: 'Mayor',
+        council: 'City Council',
+        'state-rep': 'State Rep.',
+        'us-rep': 'U.S. Rep.'
+      };
+
+      return aliasLookup[position] || '';
+    },
+    
+    setFilter: function (e) {
+      if (e.currentTarget.parentNode.className === 'filter party') {
+        this.filterParty = e.currentTarget.value;
+      } else if (e.currentTarget.parentNode.className === 'filter position') {
+        this.filterPosition = e.currentTarget.value;
+      }
+      this.trigger('change:filter');
+      Router.navigate('list/' + this.filterParty + '/' + this.filterPosition);
+    },
+
+    setVisibleModels: function () {
       var filterParty = this.filterParty;
+      var filterPosition = this.filterPosition;
       _.each(Officials.models, function (official) {
-        official.updateVisible(filterParty);
+        official.updateVisible(filterParty, filterPosition);
       });
     }
   });
 
   sp.AppRouter = Backbone.Router.extend({
     routes: {
-      'list/:party': 'filterParty'
+      'list/:party': 'updateFilter',
+      'list/:party/:position': 'updateFilter'
     },
  
-    filterParty: function (party) {
+    updateFilter: function (party, position) {
       App.filterParty = party;
-      App.trigger('change:filterParty');
+      App.filterPosition = position || 'all';
+      App.trigger('change:filter');
     }
   });
   
