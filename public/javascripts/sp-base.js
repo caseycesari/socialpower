@@ -37,7 +37,7 @@ $(document).ready(function() {
     model: sp.Official
   });
 
-  sp.ProfileView = Backbone.View.extend({
+  sp.ListItemView = Backbone.View.extend({
     tagName: 'article',
 
     className: 'official-profile',
@@ -62,22 +62,20 @@ $(document).ready(function() {
     },
 
     render: function () {
-      var that = this;
-
       _.each(this.collection.models, function (official) {
           if(official.get('visible') === true) {
-            that.renderProfile(official);
+            this.renderListItem(official);
           }
       }, this);
     },
 
-    renderProfile: function (official) {
-      var profileView = new sp.ProfileView({
+    renderListItem: function (official) {
+      var listItemView = new sp.ListItemView({
         model: official,
         id: 'official-' + official.get('id')
       });
 
-      this.$el.append(profileView.render().el);
+      this.$el.append(listItemView.render().el);
     },
 
     updateList: function(model, visible) {
@@ -107,8 +105,6 @@ $(document).ready(function() {
     },
 
     createSelect: function(type) {
-      var that = this;
-
       var filter = this.$el.find('.filter.' + type),
         select = $('<select/>', {
           html: '<option value="all">All</option>'
@@ -117,9 +113,9 @@ $(document).ready(function() {
       _.each(_.uniq(Officials.pluck(type)), function (item) {
         var option = $('<option/>', {
           value: item,
-          text: that.getAlias(item)
+          text: this.getAlias(item)
         }).appendTo(select);
-      });
+      }, this);
 
       return select;
     },
@@ -134,7 +130,7 @@ $(document).ready(function() {
         'us-rep': 'U.S. Rep.'
       };
 
-      return aliasLookup[position] || '';
+      return aliasLookup[position];
     },
     
     setFilter: function (e) {
@@ -164,7 +160,7 @@ $(document).ready(function() {
  
     updateFilter: function (party, position) {
       App.filterParty = party;
-      App.filterPosition = position;
+      App.filterPosition = position || 'all';
       App.trigger('change:filter');
     }
   });
