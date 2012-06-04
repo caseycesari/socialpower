@@ -93,8 +93,8 @@ $(document).ready(function() {
     el: '#content',
 
     initialize: function() {
-      this.$el.find('.filter.party').append(this.createPartySelect());
-      this.$el.find('.filter.position').append(this.createPositionSelect());
+      this.$el.find('.filter.party').append(this.createSelect('party'));
+      this.$el.find('.filter.position').append(this.createSelect('position'));
       this.on('change:filter', this.setVisibleModels, this);
       this.filterParty = 'all'
       this.filterPosition = '';
@@ -106,43 +106,21 @@ $(document).ready(function() {
       'change .filter select': 'setFilter'
     },
 
-    getParties: function () {
-      return _.uniq(Officials.pluck('party'), false, function (party) {
-        return party;
+    getItems: function(type) {
+      return _.uniq(Officials.pluck(type), false, function (type) {
+        return type;
       });
     },
 
-    getPositions: function () {
-      return _.uniq(Officials.pluck('position'), false, function (position) {
-        return position;
-      });
-    },
-
-    createPartySelect: function () {
-      var filter = this.$el.find('.filter.party'),
-        select = $('<select/>', {
-          html: '<option value="all">All</option>'
-        });
-   
-      _.each(this.getParties(), function (item) {
-        var option = $('<option/>', {
-          value: item,
-          text: ((item === 'R') ? 'Republicans' : 'Democrats')
-        }).appendTo(select);
-      });
-
-      return select;
-    },
-
-    createPositionSelect: function () {
+    createSelect: function(type) {
       var that = this;
 
-      var filter = this.$el.find('.filter.position'),
+      var filter = this.$el.find('.filter.' + type),
         select = $('<select/>', {
           html: '<option value="all">All</option>'
         });
    
-      _.each(this.getPositions(), function (item) {
+      _.each(that.getItems(type), function (item) {
         var option = $('<option/>', {
           value: item,
           text: that.getAlias(item)
@@ -154,10 +132,10 @@ $(document).ready(function() {
 
     getAlias: function(position) {
       var aliasLookup = {
-        R: 'Republican',
-        D: 'Democrat',
-        mayor: 'Mayor',
-        council: 'City Council',
+        R : 'Republican',
+        D : 'Democrat',
+        mayor : 'Mayor',
+        council : 'City Council',
         'state-rep': 'State Rep.',
         'us-rep': 'U.S. Rep.'
       };
@@ -177,7 +155,7 @@ $(document).ready(function() {
 
     setVisibleModels: function () {
       var filterParty = this.filterParty;
-      var filterPosition = this.filterPosition;
+      var filterPosition = this.filterPosition || 'all';
       _.each(Officials.models, function (official) {
         official.updateVisible(filterParty, filterPosition);
       });
@@ -192,7 +170,7 @@ $(document).ready(function() {
  
     updateFilter: function (party, position) {
       App.filterParty = party;
-      App.filterPosition = position || 'all';
+      App.filterPosition = position;
       App.trigger('change:filter');
     }
   });
