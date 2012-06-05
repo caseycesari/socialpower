@@ -44,12 +44,14 @@ $(document).ready(function() {
   sp.ListItemView = Backbone.View.extend({
     tagName: 'article',
     className: 'official-profile',
-    template: $('.officialTemplate').html(),
-    
-    render: function() {
-      var tmpl = _.template(this.template);
 
-      this.$el.html(tmpl(this.model.toJSON()));
+    initialize: function() {
+      this.template =  _.template($('.officialTemplate').html());
+      this.model.on('change', this.render, this);
+    },
+
+    render: function() {
+      this.$el.html(this.template((this.model.toJSON())));
       return this;
     }
   });
@@ -79,8 +81,6 @@ $(document).ready(function() {
   });
 
   sp.AppView = Backbone.View.extend({
-    el: '#content',
-
     initialize: function() {
       this.$el.find('.filter.party').append(this.createSelect('party'));
       this.$el.find('.filter.position').append(this.createSelect('position'));
@@ -153,7 +153,7 @@ $(document).ready(function() {
   });
   
   sp.officials = new sp.OfficialCollection(data);
-  sp.app = new sp.AppView();
+  sp.app = new sp.AppView({el: '#content'});
   sp.router = new sp.AppRouter();
 
   Backbone.history.start();
