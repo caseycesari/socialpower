@@ -37,7 +37,8 @@ $(document).ready(function() {
   });
 
   sp.OfficialCollection = Backbone.Collection.extend({
-    model: sp.Official
+    model: sp.Official,
+    url: 'json/officials.json'
   });
 
   sp.ListItemView = Backbone.View.extend({
@@ -45,7 +46,7 @@ $(document).ready(function() {
     className: 'official-profile',
     template: $('.officialTemplate').html(),
     
-    render: function () {
+    render: function() {
       var tmpl = _.template(this.template);
 
       this.$el.html(tmpl(this.model.toJSON()));
@@ -54,22 +55,24 @@ $(document).ready(function() {
   });
 
   sp.ListView = Backbone.View.extend({
-    el: '.official-list',
+    tagName: 'div',
+    className: '.official-list',
 
-    initialize: function () {
+    initialize: function() {
+      $('#content').append(this.$el);
       this.render();
-      this.on('filterUpdate', this.reset, this);
     },
 
-    render: function () {
+    render: function() {
       var listItems = sp.officials.where({visible: true}).map(function(o){
         return (new sp.ListItemView({model: o, id: o.get('id')})).render().el;
       });
 
       this.$el.append(listItems);
+      return this;
     },
 
-    reset: function () {
+    reset: function() {
       this.$el.html('');
       this.render();
     }
@@ -82,23 +85,23 @@ $(document).ready(function() {
       this.$el.find('.filter.party').append(this.createSelect('party'));
       this.$el.find('.filter.position').append(this.createSelect('position'));
       this.on('change:filter', this.setVisibleModels, this);
-      this.filterParty = 'all'
-      this.filterPosition = '';
+      this.filter = {party: 'all', position: 'all'};
 
       sp.list = new sp.ListView({collection: sp.officials});
     },
 
     events: {
-      'change .filter select': 'setFilter'
+      'change .filter select': 'updateFilter'
     },
 
     createSelect: function(type) {
       var filter = this.$el.find('.filter.' + type),
         select = $('<select/>', {
-          html: '<option value="all">All</option>'
+          html: '<option value="all">All</option>',
+          class: type
         });
    
-      _.each(_.uniq(sp.officials.pluck(type)), function (item) {
+      _.each(_.uniq(sp.officials.pluck(type)), function(item) {
         var option = $('<option/>', {
           value: item,
           text: this.getAlias(item)
@@ -121,20 +124,15 @@ $(document).ready(function() {
       return aliasLookup[position];
     },
     
-    setFilter: function (e) {
-      if (e.currentTarget.parentNode.className === 'filter party') {
-        this.filterParty = e.currentTarget.value;
-      } else if (e.currentTarget.parentNode.className === 'filter position') {
-        this.filterPosition = e.currentTarget.value;
-      }
-
+    updateFilter: function(e) {
+      this.filter[e.currentTarget.className] = e.currentTarget.value;
       this.trigger('change:filter');
-      sp.router.navigate('list/' + this.filterParty + '/' + this.filterPosition);
+      sp.router.navigate('list/' + this.filter.party + '/' + this.filter.position);
     },
 
-    setVisibleModels: function () {
-      _.each(sp.officials.models, function (official) {
-        official.updateVisible(this.filterParty, this.filterPosition || 'all');
+    setVisibleModels: function() {
+      sp.officials.each(function(o) {
+        o.updateVisible(this.filter.party, this.filter.position || 'all');
       }, this);
 
       sp.list.reset();
@@ -143,20 +141,20 @@ $(document).ready(function() {
 
   sp.AppRouter = Backbone.Router.extend({
     routes: {
-      'list/:party': 'updateFilter',
-      'list/:party/:position': 'updateFilter'
+      'list/:party':            'updateFilter',
+      'list/:party/:position':  'updateFilter'
     },
  
-    updateFilter: function (party, position) {
-      sp.app.filterParty = party;
-      sp.app.filterPosition = position || 'all';
+    updateFilter: function(party, position) {
+      sp.app.filter.party = party;
+      sp.app.filter.position = position || 'all';
       sp.app.trigger('change:filter');
     }
   });
   
   sp.officials = new sp.OfficialCollection(data);
-  sp.router = new sp.AppRouter();
   sp.app = new sp.AppView();
+  sp.router = new sp.AppRouter();
 
   Backbone.history.start();
 });
