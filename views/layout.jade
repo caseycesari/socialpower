@@ -5,6 +5,7 @@ html
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     link(rel='stylesheet', href='/stylesheets/style.css')
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js')
+    script(src='javascripts/components.js')
     script(src='javascripts/contrib/underscore-min.js')
     script(src='javascripts/contrib/backbone-dev.js')
     block scripts
@@ -16,4 +17,23 @@ html
         a(href='/')= title
         span Philadelphia Elected Officials Online
     block content
-
+    div.overlay.about
+      p SocialPower was built by <a href="http://cpt.ph">Casey Thomas</a>, <a href="http://mikeball.us">Mike Ball</a>, <a href="http://rc98.net">Gabriel Farrell</a>, and <a href="http://twitter.com/yuletide">Alex Yule</a> during the June 2012 Philadelphia <a href="">Random Hacks of Kindness</a> Hackathon.
+      p It's built on <a href="http://nodejs.org">Node.js</a> and <a href="http://backbonejs.org/">Backbone</a>.
+      p Check out its source code on <a href="http://github.com/caseypt/socialpower">Github</a>.
+    footer
+      ul
+        li
+          &copy; 2012
+        li
+          a(data-overlay=".about", href="#") About
+        li
+          a(href="http://github.com/caseypt/socialpower") Source Code
+    div#overlay-mask
+    script
+      $(document).ready(function () {
+        $('[data-overlay]').click(function () {
+          var overlayClass = $(this).attr('data-overlay');
+          sp.components.overlay.init($(overlayClass));
+        });
+      });
