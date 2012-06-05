@@ -1,0 +1,32 @@
+#overlay-mask
+  background: #000
+  position: fixed
+  opacity: 0.75
+  width: 100%
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: 9000;
+  display: none;
+
+.overlay
+  background: #fff
+  position:fixed
+  left:0
+  top:0
+  display:none
+  z-index:9999
+  padding:20px
+  width:450px
+  border:7px solid #888
+  height: auto
+  width: 400px
+  overflow: auto
+
+  p
+    font-size: 14px
+    margin-bottom: 15px
+
+@media only screen and (max-width: 960px)
+  .overlay
+    width: 80%

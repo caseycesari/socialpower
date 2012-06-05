@@ -1,5 +1,6 @@
 @import "reset"
 @import "variables"
+@import "overlay"
 
 // globals
 html
@@ -100,11 +101,27 @@ header
           b.icon 
             background-position: 0 0;
 
+footer
+  width: 960px
+  padding: 10px 0 20px 0
+  margin: 0 auto
+  font-size: 12px
+
+  ul
+    li
+      display: inline-block
+      margin-right: 5px
+      padding-right: 5px
+      border-right: $border
+
+      &:last-child
+        border-right: none
+
 @media only screen and (max-width: 960px)
   body
     padding: 0 10px
 
-  header, #content
+  header, #content, footer
     width: 100%
 
   #content
