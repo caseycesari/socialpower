@@ -32,7 +32,8 @@ html
     div#overlay-mask
     script
       $(document).ready(function () {
-        $('[data-overlay]').click(function () {
+        $('[data-overlay]').click(function (evt) {
+          evt.preventDefault();
           var overlayClass = $(this).attr('data-overlay');
           sp.components.overlay.init($(overlayClass));
         });
