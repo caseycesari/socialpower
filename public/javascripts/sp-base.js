@@ -8,6 +8,9 @@ $(document).ready(function() {
       visible: true
     },
 
+    //TODO: This is the raw logic, but I'm sure we can
+    //think of a cleaner way to implement, possibly using
+    // _.filter
     updateVisible: function(party, position) {
       if (party === 'all' && position === 'all') {
         this.set('visible', true);
@@ -58,7 +61,7 @@ $(document).ready(function() {
     initialize: function () {
       this.render();
       this.collection.on('reset', this.render, this);
-      Officials.on('change:visible', this.updateList, this);
+      officials.on('change:visible', this.updateList, this);
     },
 
     render: function () {
@@ -97,7 +100,7 @@ $(document).ready(function() {
       this.filterParty = 'all'
       this.filterPosition = '';
 
-      var List = new sp.ListView({collection: Officials});
+      var List = new sp.ListView({collection: officials});
     },
 
     events: {
@@ -110,7 +113,7 @@ $(document).ready(function() {
           html: '<option value="all">All</option>'
         });
    
-      _.each(_.uniq(Officials.pluck(type)), function (item) {
+      _.each(_.uniq(officials.pluck(type)), function (item) {
         var option = $('<option/>', {
           value: item,
           text: this.getAlias(item)
@@ -139,14 +142,15 @@ $(document).ready(function() {
       } else if (e.currentTarget.parentNode.className === 'filter position') {
         this.filterPosition = e.currentTarget.value;
       }
+      
       this.trigger('change:filter');
-      Router.navigate('list/' + this.filterParty + '/' + this.filterPosition);
+      router.navigate('list/' + this.filterParty + '/' + this.filterPosition);
     },
 
     setVisibleModels: function () {
       var filterParty = this.filterParty;
       var filterPosition = this.filterPosition || 'all';
-      _.each(Officials.models, function (official) {
+      _.each(officials.models, function (official) {
         official.updateVisible(filterParty, filterPosition);
       });
     }
@@ -159,15 +163,15 @@ $(document).ready(function() {
     },
  
     updateFilter: function (party, position) {
-      App.filterParty = party;
-      App.filterPosition = position || 'all';
-      App.trigger('change:filter');
+      app.filterParty = party;
+      app.filterPosition = position || 'all';
+      app.trigger('change:filter');
     }
   });
   
-  var Officials = new sp.OfficialCollection(officials);
-  var Router = new sp.AppRouter();
-  var App = new sp.AppView();
+  var officials = new sp.OfficialCollection(data);
+  var router = new sp.AppRouter();
+  var app = new sp.AppView();
 
   Backbone.history.start();
 });
