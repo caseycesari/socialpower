@@ -15,6 +15,7 @@
     "stylus": "*",
     "socket.io": "*",
     "ntwitter": "*",
-    "es": "*"
+    "es": "*",
+    "grunt": "*"
   }
 }
