@@ -57,7 +57,7 @@ sp.ListItemView = Backbone.View.extend({
   },
 
   render: function() {
-    this.$el.html(this.template((this.model.toJSON())));
+    this.$el.html(this.template(this.model.toJSON()));
     return this;
   },
 
@@ -111,7 +111,7 @@ sp.ProfileView = Backbone.View.extend({
   },
 
   render: function() {
-    this.$el.html(this.template((this.model.toJSON())));
+    this.$el.html(this.template(this.model.toJSON()));
     return this;
   },
 
@@ -129,6 +129,10 @@ sp.AppView = Backbone.View.extend({
     this.$el.find('.filter.position').append(this.createSelect('position'));
     this.filter = {party: 'all', position: 'all'};
 
+    // Create the router so we can bind listeners to 
+    // route events
+    sp.router = new sp.AppRouter();
+
     this.on('update:filter', this.setVisibleModels, this);
     sp.router.on('route:list', function(party, position) {
       this.setVisibleModels(party, position);
@@ -140,6 +144,9 @@ sp.AppView = Backbone.View.extend({
     this.dispatcher.on('close-profile', this.closeProfile, this);
 
     sp.list = new sp.ListView({collection: sp.officials});
+
+    // Now that our AppView is setup, start router
+    Backbone.history.start();
   },
 
   events: {
@@ -229,8 +236,5 @@ sp.AppRouter = Backbone.Router.extend({
   
 $(document).ready(function() {
   sp.officials = new sp.OfficialCollection(data);
-  sp.router = new sp.AppRouter();
-  Backbone.history.start();
-
   sp.app = new sp.AppView({el: '#content'});
 });
