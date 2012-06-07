@@ -159,14 +159,13 @@ sp.AppView = Backbone.View.extend({
   },
 
   createSelect: function(type) {
-    var filter = this.$el.find('.filter.' + type),
-      select = $('<select/>', {
+    var select = $('<select/>', {
         html: '<option value="all">All</option>',
-        class: type
+        'class': type
       });
  
     _.each(_.uniq(sp.officials.pluck(type)), function(item) {
-      var option = $('<option/>', {
+      $('<option/>', {
         value: item,
         text: this.getAlias(item)
       }).appendTo(select);
