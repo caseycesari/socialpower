@@ -75,6 +75,8 @@ sp.ListView = Backbone.View.extend({
   initialize: function() {
     $('#content').append(this.$el);
     this.render();
+    this.dispatcher = sp.dispatcher;
+    this.dispatcher.on('visible:update', this.reset, this);
   },
 
   render: function() {
@@ -128,7 +130,9 @@ sp.AppView = Backbone.View.extend({
     this.filter = {party: 'all', position: 'all'};
 
     this.on('update:filter', this.setVisibleModels, this);
-    sp.router.on('route:list', this.setVisibleModels, this);
+    sp.router.on('route:list', function(party, position) {
+      this.setVisibleModels(party, position);
+    }, this);
 
     sp.dispatcher = _.clone(Backbone.Events);
     this.dispatcher = sp.dispatcher;
@@ -193,29 +197,33 @@ sp.AppView = Backbone.View.extend({
     sp.router.navigate('list/' + this.filter.party + '/' + this.filter.position);
   },
 
-  setVisibleModels: function() {
+  // Can be called by either a change from the filter select menus
+  // or a change in URl, ex. #list/D/council to #list/R/council
+  setVisibleModels: function(party, position) {
+    if (typeof party !== 'undefined') { this.filter.party = party; }
+    if (typeof position !== 'undefined') { this.filter.position = position; }
+
     sp.officials.each(function(o) {
       o.updateVisible(this.filter.party, this.filter.position || 'all');
     }, this);
 
-    sp.list.reset();
+    this.dispatcher.trigger('visible:update');
   }
 });
 
 sp.AppRouter = Backbone.Router.extend({
   routes: {
-    'list/:party':            'updateFilter',
-    'list/:party/:position':  'updateFilter',
-    'profile/:id':            'profile'
+    'profile/:id' :             'profile',
+    'list/:party/:position' :   'list',
+    'list/:party' :             'list'
   },
 
-  updateFilter: function(party, position) {
-    // This shouldn't modify the sp.app.filters directly
-    // Should pass along new values in event.
+  list: function(party, position) {
 
-    //sp.app.filter.party = party;
-    //sp.app.filter.position = position || 'all';
-    //sp.app.trigger('change:filter');
+  },
+
+  profile: function(profile) {
+
   }
 });
   
