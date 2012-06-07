@@ -1,4 +1,4 @@
-<script class="officialTemplate" type="text/template">
+<script class="tmpl-official-list-item" type="text/template">
   <h2><%= firstName %> <%= lastName %>
     <% var partyName; %>
     <% (party === 'R') ? partyName = 'Republican' : partyName = 'Democrat' %>
@@ -29,4 +29,11 @@
       <% } %>
     </li>
   </ul>
+</script>
+
+
+<script class="tmpl-official-profile" type="text/template">
+  <a href="#">Back to list</a>
+  <h2><%= firstName %> <%= lastName %><h2>
+  More details, tweets, likes, etc.
 </script>
