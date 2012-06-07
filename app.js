@@ -71,8 +71,7 @@ twit.stream('user', {track:'socialpowerphl'}, function(stream) {
   });
 });
 
-app.get('/', routes.index);
-app.get('/io', routes.io);
+routes(app);
 
 // load officials into from json file
 db.loadOfficials(function(err, res) {
